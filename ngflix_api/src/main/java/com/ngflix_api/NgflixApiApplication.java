@@ -1,5 +1,7 @@
 package com.ngflix_api;
 
+import java.util.List;
+
 import com.ngflix_api.movie.Movie;
 import com.ngflix_api.movie.MovieRepository;
 import com.ngflix_api.person.Person;
@@ -27,8 +29,7 @@ public class NgflixApiApplication {
 	@Bean
 	InitializingBean sendDatabase() {
 		return () -> {
-			//userRepository.save(new User("John"));
-			//userRepository.save(new User("Rambo"));
+			
 			Movie[] seedMovies = new Movie[] {
 				new Movie("Iron-Man", 7.8),
 				new Movie("Iron-Man", 7.8),

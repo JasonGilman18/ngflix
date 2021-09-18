@@ -1,5 +1,7 @@
 package com.ngflix_api.person;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,12 +21,22 @@ public class PersonController {
     PersonRepository personRepo;
 
     @GetMapping(path = "/people")
-    public List<Person> getAllPeople() {
-        return personRepo.findAll();
+    public HashMap<String, Object> getAllPeople() {
+        HashMap<String, Object> response = new HashMap<>();
+        List<HashMap<String, Object>> people = new ArrayList<>();
+        for(Person p : personRepo.findAll()) {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("id", p.id);
+            data.put("firstName", p.firstName);
+            data.put("lastName", p.lastName);
+            people.add(data);
+        }
+        response.put("people", people);
+        return response;
     }
 
     @GetMapping(path = "/people/{person_id}")
-    public Person getPerson(@PathVariable Integer person_id) {
+    public HashMap<String, Object> getPerson(@PathVariable Integer person_id) {
         try {
             return personRepo.findById(person_id).get();
         }

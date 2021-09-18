@@ -1,5 +1,7 @@
 package com.ngflix_api.movie;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -28,21 +30,33 @@ public class MovieController {
     private PersonMovieRepository personMovieRepo;
 
     @GetMapping(path = "/movies")
-    public Map<String, List<Map<String, ?>>> getAllMovies() {
-        
+    public HashMap<String, Object> getAllMovies() {
+        HashMap<String, Object> response = new HashMap<>();
+        List<HashMap<String, Object>> movies = new ArrayList<>();
         for(Movie movie : movieRepo.findAll()) {
-
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("id", movie.id);
+            data.put("name", movie.name);
+            data.put("rating", movie.rating);
+            movies.add(data);
         }
+        response.put("movies", movies);
+        return response;
     }
 
     @GetMapping(path = "/movies/{movie_id}")
-    public Movie getMovie(@PathVariable Integer movie_id) {
+    public HashMap<String, Object> getMovie(@PathVariable Integer movie_id) {
+        HashMap<String, Object> response = new HashMap<>();
         try { 
-            return movieRepo.findById(movie_id).get();
+            Movie movie = movieRepo.findById(movie_id).get();
+            response.put("id", movie.id);
+            response.put("name", movie.name);
+            response.put("rating", movie.rating);
         }
         catch(NoSuchElementException e) {
-            return null;
+            response.put("error", "could not fetch movie with id " + movie_id);
         }
+        return response;
     }
 
     @PostMapping(path = "/movies/add")
