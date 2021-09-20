@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.ngflix_api.JSON;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +23,8 @@ public class PersonController {
     PersonRepository personRepo;
 
     @GetMapping(path = "/people")
-    public HashMap<String, Object> getAllPeople() {
-        HashMap<String, Object> response = new HashMap<>();
+    public JSON getAllPeople() {
+        JSON response = new JSON();
         List<HashMap<String, Object>> people = new ArrayList<>();
         for(Person p : personRepo.findAll()) {
             HashMap<String, Object> data = new HashMap<>();
